@@ -67,7 +67,7 @@ class LoginRepositoryImpl(
     override suspend fun logout(): Flow<Content<Unit>> =
         asContentFlow {
             fileCache.putTyped<String>(authorizationPreferencesKey, null)
-            fileCache.putTyped<User>(userCacheKey, null)
+            fileCache.putTyped<UserDto>(userCacheKey, null)
             client.get(logoutApiUrl).body<Unit>()
         }.flowOn(dispatcher)
 
