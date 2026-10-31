@@ -5,5 +5,7 @@ interface ResourceLoader {
 
     fun getComposeResourceUri(path: String): String
 
+    suspend fun loadCommonResourceBytes(path: String): ByteArray
+
     fun loadComonResourceFile(path: String): String? = loadResource("files/$path")
 }
