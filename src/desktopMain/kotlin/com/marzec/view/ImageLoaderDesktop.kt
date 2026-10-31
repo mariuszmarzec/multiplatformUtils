@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import com.marzec.cache.Cache
 import com.marzec.logger.Logger
-import com.marzec.resource.generated.resources.Res
+import com.marzec.resource.ResourceLoader
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.animatedimage.AnimatedImage
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.skia.Codec
 import org.jetbrains.skia.Data
 import org.jetbrains.skia.Image as ImageUtil
@@ -34,7 +33,8 @@ import org.jetbrains.skia.Image as ImageUtil
 class ImageLoaderDesktop(
     private val clientProvider: () -> HttpClient,
     private val memoryCache: Cache,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val resourceLoader: ResourceLoader
 ) : ImageLoader {
 
     private val job = Job()
@@ -102,11 +102,11 @@ class ImageLoaderDesktop(
         }
     }
 
-    @OptIn(ExperimentalComposeUiApi::class, ExperimentalResourceApi::class)
+    @OptIn(ExperimentalComposeUiApi::class)
     private suspend fun loadFromResource(path: String) {
         val file = File(path)
         val extension = file.extension
-        val loadedImage = Res.readBytes(path)
+        val loadedImage = resourceLoader.loadCommonResourceBytes(path)
         require(loadedImage.isNotEmpty())
         require(extension.isNotEmpty())
         putToMemoryCache(path, Image(loadedImage, extension))
