@@ -13,10 +13,6 @@ plugins {
     id("org.jetbrains.kotlinx.atomicfu")
 }
 
-compose.resources {
-    packageOfResClass = "com.marzec.resource.generated.resources"
-}
-
 atomicfu {
     // This module only uses kotlinx.atomicfu.locks; bytecode transformation is not needed for JVM/Android.
     // Disable the legacy transform task that assumes the old KMP androidMainClasses task.
@@ -48,7 +44,6 @@ kotlin {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
-                implementation(compose.components.resources)
                 api(libs.kotlinStdlib)
                 api(libs.coroutineCore)
                 api(libs.ktorClient)
