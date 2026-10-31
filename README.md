@@ -27,6 +27,12 @@ git submodule sync --recursive
 git submodule update --init --recursive
 ```
 
+## Application-owned resources
+
+The shared module intentionally does not contain application assets or a concrete `ResourceLoaderImpl`.
+
+Each consuming application's `:common` module owns its Compose resources and provides platform implementations of `com.marzec.resource.ResourceLoader` (Android and Desktop). This keeps application-specific files, such as feature-toggle defaults and media assets, in the application that owns them while sharing the resource-loading contract.
+
 ## Platforms
 
 - Kotlin common
