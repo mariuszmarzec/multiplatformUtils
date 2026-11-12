@@ -23,6 +23,10 @@ object CurrentTimeUtil {
             LocalDate.of(year, month, day).atStartOfDay(ZoneId.systemDefault()).toInstant()
         clock = { Clock.fixed(instant, ZoneId.systemDefault()) }
     }
+
+    fun resetClock() {
+        clock = { Clock.systemDefaultZone() }
+    }
 }
 
 fun currentTime(): LocalDateTime =
