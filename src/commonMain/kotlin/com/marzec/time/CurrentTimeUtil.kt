@@ -24,6 +24,14 @@ object CurrentTimeUtil {
         clock = { Clock.fixed(instant, ZoneId.systemDefault()) }
     }
 
+    fun setClock(day: Int, month: Int, year: Int, hour: Int = 0, minute: Int = 0) {
+        val instant =
+            java.time.LocalDateTime.of(year, month, day, hour, minute)
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+        clock = { Clock.fixed(instant, ZoneId.systemDefault()) }
+    }
+
     fun resetClock() {
         clock = { Clock.systemDefaultZone() }
     }
